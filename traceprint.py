@@ -17,9 +17,12 @@ def intersection( *args ):
 		ret.append( a )
 	return ret
 
-def translate( x, y, z ):
+def translate( x, y=None, z=None ):
 	def func( *args ):
-		return ["translate", float(x), float(y), float(z), union( *args )]
+		if y:
+			return ["translate", float(x), float(y), float(z), union( *args )]
+		else:
+			return ["translate", float(x[0]), float(y[1]), float(z[2]), union( *args )]
 	return func
 
 #Primitives
@@ -50,4 +53,4 @@ def write_out( filename, object ):
 		f.write( json.dumps( object, indent=3 ) )
 
 def from_solid( obj ):
-	
+	pass
