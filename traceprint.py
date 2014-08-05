@@ -22,7 +22,7 @@ def translate( x, y=None, z=None ):
 		if y:
 			return ["translate", float(x), float(y), float(z), union( *args )]
 		else:
-			return ["translate", float(x[0]), float(y[1]), float(z[2]), union( *args )]
+			return ["translate", float(x[0]), float(x[1]), float(x[2]), union( *args )]
 	return func
 
 #Primitives
