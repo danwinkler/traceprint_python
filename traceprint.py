@@ -19,7 +19,7 @@ def intersection( *args ):
 
 def translate( x, y=None, z=None ):
 	def func( *args ):
-		if y:
+		if y is not None:
 			return ["translate", float(x), float(y), float(z), union( *args )]
 		else:
 			return ["translate", float(x[0]), float(x[1]), float(x[2]), union( *args )]
