@@ -1,6 +1,27 @@
 import json
 import os
 
+#Scene
+class Scene:
+	def __init__(self):
+		self.geometry = {}
+		self.lights = []
+	
+	def write_out( self, filename ):
+		out = { 
+			"geometry": self.geometry,
+			"lights": self.lights
+		}
+		with open( filename, "w" ) as f:
+			f.write( json.dumps( out, indent=3 ) )
+	
+	def add_module( self, key, module ):
+		self.geometry[key] = module
+	
+	def add_light( self, light ):
+		self.lights.append( light )
+
+
 #Transform
 def union( *args ):
 	ret = []
@@ -9,7 +30,7 @@ def union( *args ):
 	return { "type": "union", "children": ret }
 
 def difference( a, b ):
-	return { "type": "difference", "children": [a, b] }
+	return { "type": "difference", "a": a, "b": b }
 	
 def intersection( *args ):
 	ret = []
@@ -38,8 +59,8 @@ def box( x, y, z ):
 def sphere( r, slices=16, stacks=8 ):
 	return { "type": "sphere", "r": float(r), "slices": int(slices), "stacks": int(stacks) }
 
-def cylinder( r, height, slices=8 ):
-	return { "type": "cylinder", "r": float(r), "height": float(height), "slices": int(slices) }
+def cylinder( r, h, slices=8 ):
+	return { "type": "cylinder", "r": float(r), "height": float(h), "slices": int(slices) }
 	
 def stl( filepath, abspath=True ):
 	return { "type": "stl", "path": os.path.abspath( filepath ) if abspath else filepath }
@@ -57,13 +78,5 @@ def module( name ):
 	return { "type": "module", "name": name }
 	
 #Helpers	
-def write_out( filename, object ):
-	if "main" in object:
-		out = { "geometry": object }
-	else:
-		out = { "geometry": { "main": object } }
-	with open( filename, "w" ) as f:
-		f.write( json.dumps( out, indent=3 ) )
-
 def from_solid( obj ):
 	pass
